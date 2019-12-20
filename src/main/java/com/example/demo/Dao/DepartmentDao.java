@@ -5,7 +5,7 @@ import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DepartmentDao {
+public class DepartmentDao implements  HierarchyDao {
 
     public JSONArray createDepartment(){
         JSONArray res = new JSONArray();
@@ -22,6 +22,28 @@ public class DepartmentDao {
         return res;
     }
 
+    @Override
+    public void add() {
 
+    }
 
+    @Override
+    public void edit() {
+
+    }
+
+    @Override
+    public void delete() {
+
+    }
+
+    @Override
+    public JSONObject get() {
+        return null;
+    }
+
+    @Override
+    public JSONArray getAll() {
+        return null;
+    }
 }
