@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.Service;
 
+import com.example.demo.Dao.DepartmentDao;
 import net.minidev.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
