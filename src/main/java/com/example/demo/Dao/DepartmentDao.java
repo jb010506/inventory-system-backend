@@ -72,7 +72,7 @@ public class DepartmentDao implements  HierarchyDao<Department> {
         {
             jsonArray.add(row);
         }
-        System.out.println("SuccessGetAll");
+
         return jsonArray;
     }
 }
