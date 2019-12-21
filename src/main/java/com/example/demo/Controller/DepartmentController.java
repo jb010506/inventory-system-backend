@@ -22,11 +22,11 @@ public class DepartmentController {
     }
      */
     @RequestMapping(value = "/department", method = RequestMethod.GET)
-    public @ResponseBody
+    public
     JSONArray getAllDepartment(){
         JSONArray jsonArray = departmentService.getAllDepartments();
         System.out.println(jsonArray);
-        System.out.println("SuccessGetAll");
+        System.out.println("SuccessGetAll department");
         return jsonArray;
     }
 
