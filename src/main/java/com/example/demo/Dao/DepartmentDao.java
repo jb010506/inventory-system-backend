@@ -2,7 +2,7 @@ package com.example.demo.Dao;
 
 import com.example.demo.Entity.Department;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.nashorn.internal.parser.JSONParser;
+
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
