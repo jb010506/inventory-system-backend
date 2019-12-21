@@ -30,6 +30,7 @@ public class DepartmentController {
         return jsonArray;
     }
 
+    /*
     @RequestMapping(value = "/department/{id}", method = RequestMethod.GET)
     public @ResponseBody
     JSONObject getDepartment(@PathVariable("id") Integer id){
@@ -38,7 +39,8 @@ public class DepartmentController {
         System.out.println("SuccessGetById");
         return jsonObject;
     }
-
+    */
+    
     @RequestMapping(value = "/add/department", method = RequestMethod.POST)
     public @ResponseBody
     Department addDepartment (@RequestBody Department department) {

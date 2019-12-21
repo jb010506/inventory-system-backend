@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public interface HierarchyDao<T> {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
     public void add(T entity);
     public void edit(int id, T entity);

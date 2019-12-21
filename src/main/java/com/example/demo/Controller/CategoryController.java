@@ -14,9 +14,9 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @RequestMapping(value = "/department/{category}", method = RequestMethod.GET)
-    public
-    JSONArray getAllCategory(){
-        JSONArray jsonArray = categoryService.getAllCategories();
+    public @ResponseBody JSONArray getAllCategory(@PathVariable String category){
+
+        JSONArray jsonArray = categoryService.getAll();
         System.out.println(jsonArray);
         System.out.println("SuccessGetAll categories");
         return jsonArray;

@@ -15,7 +15,9 @@ public class CategoryService {
     private CategoryDao categoryDao;
 
 
-
+    public JSONArray getAll(){
+        return categoryDao.getAll();
+    }
 
     public void addCategory(Category category){
         //categoryDao.add(category);
