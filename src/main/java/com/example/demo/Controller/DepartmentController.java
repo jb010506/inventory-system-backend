@@ -26,6 +26,7 @@ public class DepartmentController {
     JSONArray getAllDepartment(){
         JSONArray jsonArray = departmentService.getAllDepartments();
         System.out.println(jsonArray);
+        System.out.println("SuccessGetAll");
         return jsonArray;
     }
 
@@ -34,6 +35,7 @@ public class DepartmentController {
     JSONObject getDepartment(@PathVariable("id") Integer id){
         JSONObject jsonObject = departmentService.getDepartment(id);
         System.out.println(jsonObject);
+        System.out.println("SuccessGetById");
         return jsonObject;
     }
 
@@ -45,16 +47,16 @@ public class DepartmentController {
         return department;
     }
 
-    @RequestMapping(value = {"/delete/department"}, method = RequestMethod.DELETE)
+    @RequestMapping(value = {"/delete/department/{id}"}, method = RequestMethod.DELETE)
     @ResponseBody
-    public void deleteDepartment(@RequestParam("id") int id){
+    public void deleteDepartment(@PathVariable("id") int id){
         departmentService.deleteDepartment(id);
         System.out.println("SuccessDelete");
     }
 
-    @RequestMapping(value = "/edit/department", method = RequestMethod.PUT)
+    @RequestMapping(value = "/edit/department/{id}", method = RequestMethod.PUT)
     public @ResponseBody
-    void editDepartment(@RequestParam("id") int id, @RequestBody Department department){
+    void editDepartment(@PathVariable("id") int id, @RequestBody Department department){
         departmentService.editDepartment(id, department);
         System.out.println("SuccessEdit");
     }
