@@ -1,49 +1,78 @@
 package com.example.demo.Dao;
 
+import com.example.demo.Entity.Department;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.nashorn.internal.parser.JSONParser;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
+import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Repository;
 
-@Component
-public class DepartmentDao implements  HierarchyDao {
+import javax.sql.RowSet;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-    public JSONArray createDepartment(){
-        JSONArray res = new JSONArray();
-        System.out.println("createDepartment");
+import static org.springframework.data.repository.init.ResourceReader.Type.JSON;
 
-        JSONObject dep1 = new JSONObject();
-        JSONObject dep2 = new JSONObject();
-        dep1.put("ID","1");
-        dep1.put("name","Vehicle");
-        dep2.put("ID", "2");
-        dep2.put("name", "Book");
-        res.add(dep1);
-        res.add(dep2);
-        return res;
+
+@Repository
+public class DepartmentDao implements  HierarchyDao<Department> {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public void add(Department entity) {
+        String sql = "INSERT INTO Department VALUES (?,?,?,?,?)";
+        jdbcTemplate.update(sql, entity.getId(), entity.getName(), entity.getDescription(), entity.getPosCode(), entity.getTag());
     }
 
     @Override
-    public void add() {
-
+    public void edit(int id, Department entity) {
+        String sql = "UPDATE Department SET name = ?, description = ?, posCode = ?, tag = ? WHERE id = ?";
+        jdbcTemplate.update(sql, entity.getName(), entity.getDescription(), entity.getPosCode(), entity.getTag(), id);
     }
 
     @Override
-    public void edit() {
-
+    public void delete(int id) {
+        String sql = "DELETE FROM Department WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public void delete() {
+    public JSONObject get(int id) {
+        String sql = "SELECT * FROM Department WHERE id = ?";
+        SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, id);
+        JSONObject jsonObject = null;
+        if(rs.next()){
+            jsonObject = new JSONObject();
+            jsonObject.put("id", rs.getInt("id"));
+            jsonObject.put("name", rs.getString("name"));
+            jsonObject.put("description", rs.getString("description"));
+            jsonObject.put("posCode", rs.getString("posCode"));
+            jsonObject.put("tag", rs.getString("tag"));
+        }
 
-    }
-
-    @Override
-    public JSONObject get() {
-        return null;
+        return jsonObject;
     }
 
     @Override
     public JSONArray getAll() {
-        return null;
+        String sql = "SELECT * FROM Department";
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
+        JSONArray jsonArray = new JSONArray();
+        for (Map<String, Object> row : rows)
+        {
+            jsonArray.add(row);
+        }
+        System.out.println("SuccessGetAll");
+        return jsonArray;
     }
 }
