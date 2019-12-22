@@ -1,5 +1,14 @@
 package ntu.csie.selab.inventorysystem.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import ntu.csie.selab.inventorysystem.exception.ConflictException;
 import ntu.csie.selab.inventorysystem.exception.NotFoundException;
 import ntu.csie.selab.inventorysystem.exception.UnprocessableEntityException;
@@ -7,11 +16,11 @@ import ntu.csie.selab.inventorysystem.model.Category;
 import ntu.csie.selab.inventorysystem.model.Department;
 import ntu.csie.selab.inventorysystem.model.HierarchyC2Sc;
 import ntu.csie.selab.inventorysystem.model.HierarchyD2C;
-import ntu.csie.selab.inventorysystem.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.*;
+import ntu.csie.selab.inventorysystem.repository.CategoryRepository;
+import ntu.csie.selab.inventorysystem.repository.DepartmentRepository;
+import ntu.csie.selab.inventorysystem.repository.HierarchyC2ScRepository;
+import ntu.csie.selab.inventorysystem.repository.HierarchyD2CRepository;
+import ntu.csie.selab.inventorysystem.repository.InventoryRepository;
 
 @Service
 public class HierarchyService {
@@ -119,6 +128,8 @@ public class HierarchyService {
         if ((hierarchyC2ScRepository.countByCategory(new Category(id)) > 0) ||
                 (inventoryRepository.countByCategory(new Category(id)) > 0))
             throw new ConflictException("Cannot delete a category which is not empty.");
+        int rid = hierarchyD2CRepository.findIDByCID(new Category(id));
+        hierarchyD2CRepository.deleteById(rid);
         categoryRepository.deleteById(id);
     }
 

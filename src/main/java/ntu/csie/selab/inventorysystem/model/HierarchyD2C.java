@@ -33,6 +33,11 @@ public class HierarchyD2C {
     public void setCategory(Category category) {
         this.category = category;
     }
+    // public int findIDByCategoryId(Integer categoryId) {
+    //     for(int index = 0;index < this.category
+    //     return 0;
+    // }
+
     @Override
     public String toString() {
         return String.format("Hierarchy[id=%d, did=%d, cid=%d]", id, department.getId(), category.getId());

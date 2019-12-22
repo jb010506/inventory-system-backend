@@ -15,12 +15,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/items")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class ItemController {
     @Autowired
     ItemService itemService;
     @Autowired
     UserService userService;
 
+    // get all items
     @GetMapping(value = "/", produces = "application/json")
     public List<Map<String, Object>> viewItemList(
             @CookieValue(name = "uid") String uid,
@@ -30,6 +32,7 @@ public class ItemController {
         return itemService.itemList();
     }
 
+    // get leaf items under specific department
     @GetMapping(value = "/hierarchy/leaf/{did}", produces = "application/json")
     public List<Map<String, Object>> viewItemHierarchyLeafList(
             @CookieValue(name = "uid") String uid,
@@ -40,6 +43,7 @@ public class ItemController {
         return itemService.itemHierarchyLeafList(did, null, null);
     }
 
+    // get subtree items under specific department
     @GetMapping(value = "/hierarchy/subtree/{did}", produces = "application/json")
     public List<Map<String, Object>> viewItemHierarchySubtreeList(
             @CookieValue(name = "uid") String uid,
@@ -50,6 +54,7 @@ public class ItemController {
         return itemService.itemHierarchySubtreeList(did, null, null);
     }
 
+    // get leaf items under specific category
     @GetMapping(value = "/hierarchy/leaf/{did}/{cid}", produces = "application/json")
     public List<Map<String, Object>> viewItemHierarchyLeafList(
             @CookieValue(name = "uid") String uid,
@@ -61,6 +66,7 @@ public class ItemController {
         return itemService.itemHierarchyLeafList(did, cid, null);
     }
 
+    // get subtree items under specific category
     @GetMapping(value = "/hierarchy/subtree/{did}/{cid}", produces = "application/json")
     public List<Map<String, Object>> viewItemHierarchySubtreeList(
             @CookieValue(name = "uid") String uid,
@@ -72,6 +78,7 @@ public class ItemController {
         return itemService.itemHierarchySubtreeList(did, cid, null);
     }
 
+    // get leaf items under specific subcategory
     @GetMapping(value = "/hierarchy/leaf/{did}/{cid}/{scid}", produces = "application/json")
     public List<Map<String, Object>> viewItemHierarchyLeafList(
             @CookieValue(name = "uid") String uid,
@@ -84,6 +91,7 @@ public class ItemController {
         return itemService.itemHierarchyLeafList(did, cid, scid);
     }
 
+    // get subtree items under specific subcategory
     @GetMapping(value = "/hierarchy/subtree/{did}/{cid}/{scid}", produces = "application/json")
     public List<Map<String, Object>> viewItemHierarchySubtreeList(
             @CookieValue(name = "uid") String uid,

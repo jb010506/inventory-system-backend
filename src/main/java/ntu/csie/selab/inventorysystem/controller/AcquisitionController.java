@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/acquisitions")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class AcquisitionController {
     @Autowired
     AcquisitionService acquisitionService;

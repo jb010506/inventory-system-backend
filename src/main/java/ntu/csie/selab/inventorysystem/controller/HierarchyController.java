@@ -15,6 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/hierarchy")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class HierarchyController {
     @Autowired
     HierarchyService hierarchyService;
