@@ -46,9 +46,10 @@ public class DepartmentController {
     }
     */
     
-    @RequestMapping(value = "/add/department", method = RequestMethod.POST)
+    @RequestMapping(value = "department/addDepartment", method = RequestMethod.POST)
     public @ResponseBody
     Department addDepartment (@RequestBody Department department) {
+        System.out.println("Add department");
         departmentService.addDepartment(department);
         System.out.println("SuccessAdd");
         return department;

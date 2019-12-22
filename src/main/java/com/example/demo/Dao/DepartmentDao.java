@@ -31,13 +31,13 @@ public class DepartmentDao implements  HierarchyDao<Department> {
     @Override
     public void add(Department entity) {
         String sql = "INSERT INTO Department VALUES (?,?,?,?,?)";
-        jdbcTemplate.update(sql, entity.getId(), entity.getName(), entity.getDescription(), entity.getPosCode(), entity.getTag());
+        jdbcTemplate.update(sql, entity.getId(), entity.getName(), entity.getDescription(), entity.getPosDepartmentCode(), entity.getUniqueTag());
     }
 
     @Override
     public void edit(int id, Department entity) {
         String sql = "UPDATE Department SET name = ?, description = ?, posCode = ?, tag = ? WHERE id = ?";
-        jdbcTemplate.update(sql, entity.getName(), entity.getDescription(), entity.getPosCode(), entity.getTag(), id);
+        jdbcTemplate.update(sql, entity.getName(), entity.getDescription(), entity.getPosDepartmentCode(), entity.getUniqueTag(), id);
     }
 
     @Override

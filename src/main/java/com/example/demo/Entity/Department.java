@@ -13,9 +13,9 @@ public class Department implements Serializable {
 
     String description;
 
-    String posCode;
+    String posDepartmentCode;
 
-    String tag;
+    String uniqueTag;
 
     public int getId() {
         return id;
@@ -41,19 +41,19 @@ public class Department implements Serializable {
         this.description = description;
     }
 
-    public String getPosCode() {
-        return posCode;
+    public String getPosDepartmentCode() {
+        return posDepartmentCode;
     }
 
-    public void setPosCode(String posCode) {
-        this.posCode = posCode;
+    public void setPosDepartmentCode(String posDepartmentCode) {
+        this.posDepartmentCode = posDepartmentCode;
     }
 
-    public String getTag() {
-        return tag;
+    public String getUniqueTag() {
+        return uniqueTag;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setUniqueTag(String uniqueTag) {
+        this.uniqueTag = uniqueTag;
     }
 }
