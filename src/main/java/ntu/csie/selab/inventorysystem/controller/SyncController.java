@@ -1,13 +1,14 @@
 package ntu.csie.selab.inventorysystem.controller;
 
+import ntu.csie.selab.inventorysystem.exception.UnprocessableEntityException;
 import ntu.csie.selab.inventorysystem.model.Acquisition;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import ntu.csie.selab.inventorysystem.service.AcquisitionService;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/sync")
@@ -17,13 +18,13 @@ public class SyncController {
     AcquisitionService acquisitionService;
 
     @PostMapping(value = "/acquisition", produces = "application/json")
-    public void newAcquisition(@RequestBody Map<String, Object> map, HttpServletResponse response) {
-        Acquisition acquisition = acquisitionService.newAcquisition(
-                (String) map.getOrDefault("type", ""),
-                (String) map.getOrDefault("donor", ""),
-                (String) map.getOrDefault("contact", ""),
-                (String) map.getOrDefault("phone", ""),
-                (String) map.getOrDefault("date", "")
-        );
+    public void newAcquisition(
+            @Valid @RequestBody Acquisition.AcquisitionValidation acquisitionValidation,
+            BindingResult validation
+    ) {
+        if (validation.getFieldErrorCount() > 0)
+            throw new UnprocessableEntityException(String.format("Invalid field value: %s",
+                    validation.getFieldErrors().get(0).getField()));
+        Acquisition acquisition = acquisitionService.newAcquisition(acquisitionValidation);
     }
 }

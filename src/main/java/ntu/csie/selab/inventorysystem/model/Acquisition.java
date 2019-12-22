@@ -1,6 +1,11 @@
 package ntu.csie.selab.inventorysystem.model;
 
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity
@@ -23,6 +28,11 @@ public class Acquisition {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "status")
     private AcquisitionStatus status;
+
+    public Acquisition() {}
+    public Acquisition(Integer id) {
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;
@@ -70,5 +80,19 @@ public class Acquisition {
     public String toString() {
         return String.format("Acquisition[id=%d, type='%s', donor='%s', contact='%s', phone='%s', date='%s', status='%s']",
                 id, type.toString(), donor, contact, phone, date.toString(), status.toString());
+    }
+
+    public static class AcquisitionValidation {
+        @NotBlank
+        public String type;
+        @Length(max = 45)
+        public String donor;
+        @Length(max = 45)
+        public String contact;
+        @Length(max = 45)
+        @Pattern(regexp = "[0-9]{4}-[0-9]{3}-[0-9]{3}")
+        public String phone;
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        public Date date;
     }
 }

@@ -30,6 +30,13 @@ public class ItemHistory {
     @Column(name = "comment")
     private String comment;
 
+    public ItemHistory(Item item, User user) {
+        this.item = item;
+        this.date = new Date();
+        this.adjust = 0;
+        this.user = user;
+    }
+
     public Integer getId() {
         return id;
     }

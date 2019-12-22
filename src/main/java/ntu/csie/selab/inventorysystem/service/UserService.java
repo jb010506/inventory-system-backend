@@ -45,9 +45,7 @@ public class UserService {
     }
 
     public void isLogin(Integer uid, String token) {
-        User user = new User();
-        user.setId(uid);
-        List<Token> list = tokenRepository.CheckAvailableToken(user, token);
+        List<Token> list = tokenRepository.CheckAvailableToken(new User(uid), token);
         if (list.isEmpty())
             throw new UnauthorizedException("User not logged in.");
     }

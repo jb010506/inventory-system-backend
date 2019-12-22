@@ -1,5 +1,6 @@
 package ntu.csie.selab.inventorysystem.service;
 
+import ntu.csie.selab.inventorysystem.exception.NotFoundException;
 import ntu.csie.selab.inventorysystem.exception.UnprocessableEntityException;
 import ntu.csie.selab.inventorysystem.model.Acquisition;
 import ntu.csie.selab.inventorysystem.model.AcquisitionStatus;
@@ -10,8 +11,6 @@ import ntu.csie.selab.inventorysystem.repository.AcquisitionTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -25,23 +24,17 @@ public class AcquisitionService {
     private static Map<String, AcquisitionType> typeMap = null;
     private static Map<String, AcquisitionStatus> statusMap = null;
 
-    public Acquisition newAcquisition(String type, String donor, String contact, String phone, String dateString) {
+    public Acquisition newAcquisition(Acquisition.AcquisitionValidation acquisitionValidation) {
+        readAllTypes();
+        readAllStatus();
         Acquisition acquisition = new Acquisition();
-        if (typeMap == null)
-            typeMap = readAllTypes();
-        if (!typeMap.containsKey(type))
+        if (!typeMap.containsKey(acquisitionValidation.type))
             throw new UnprocessableEntityException("Invalid value in field: 'type'.");
-        acquisition.setType(typeMap.get(type));
-        acquisition.setDonor(donor);
-        acquisition.setContact(contact);
-        acquisition.setPhone(phone);
-        try {
-            acquisition.setDate(new SimpleDateFormat("yyyy/MM/dd").parse(dateString));
-        } catch (ParseException e) {
-            throw new UnprocessableEntityException("Invalid value in field: 'date'.");
-        }
-        if (statusMap == null)
-            statusMap = readAllStatus();
+        acquisition.setType(typeMap.get(acquisitionValidation.type));
+        acquisition.setDonor(acquisitionValidation.donor);
+        acquisition.setContact(acquisitionValidation.contact);
+        acquisition.setPhone(acquisitionValidation.phone);
+        acquisition.setDate(acquisitionValidation.date);
         acquisition.setStatus(statusMap.get("Expected"));
         return acquisitionRepository.save(acquisition);
     }
@@ -55,19 +48,23 @@ public class AcquisitionService {
 
     public Acquisition acquisitionById(Integer id) {
         Optional<Acquisition> result = acquisitionRepository.findById(id);
-        return result.orElse(null);
+        if (!result.isPresent())
+            throw new NotFoundException(String.format("No acquisition found with id: %d.", id));
+        return result.get();
     }
 
-    private Map<String, AcquisitionType> readAllTypes() {
-        Map<String, AcquisitionType> map = new HashMap<>();
+    private void readAllTypes() {
+        if (typeMap != null)
+            return;
+        typeMap = new HashMap<>();
         for (AcquisitionType type : acquisitionTypeRepository.findAll())
-            map.put(type.getType(), type);
-        return map;
+            typeMap.put(type.getType(), type);
     }
-    private Map<String, AcquisitionStatus> readAllStatus() {
-        Map<String, AcquisitionStatus> map = new HashMap<>();
+    private void readAllStatus() {
+        if (statusMap != null)
+            return;
+        statusMap = new HashMap<>();
         for (AcquisitionStatus status : acquisitionStatusRepository.findAll())
-            map.put(status.getStatus(), status);
-        return map;
+            statusMap.put(status.getStatus(), status);
     }
 }

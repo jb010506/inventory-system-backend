@@ -19,6 +19,11 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Token> tokens;
 
+    public User() {}
+    public User(Integer id) {
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }
