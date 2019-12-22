@@ -17,7 +17,7 @@ public class DepartmentController {
 
     @Autowired
     private DepartmentService departmentService;
-    s
+
     /*
     @RequestMapping(value = "/department", method = RequestMethod.GET, produces = "application/json")
     public JSONArray firstPage() {
