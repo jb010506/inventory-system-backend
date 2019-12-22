@@ -5,15 +5,19 @@ import com.example.demo.Service.DepartmentService;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "/*")
 @RestController
 public class DepartmentController {
 
     @Autowired
     private DepartmentService departmentService;
-
+    s
     /*
     @RequestMapping(value = "/department", method = RequestMethod.GET, produces = "application/json")
     public JSONArray firstPage() {
