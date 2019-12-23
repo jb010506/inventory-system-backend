@@ -5,9 +5,12 @@ import ntu.csie.selab.inventorysystem.exception.UnprocessableEntityException;
 import ntu.csie.selab.inventorysystem.model.Acquisition;
 import ntu.csie.selab.inventorysystem.model.AcquisitionStatus;
 import ntu.csie.selab.inventorysystem.model.AcquisitionType;
+import ntu.csie.selab.inventorysystem.model.Item;
 import ntu.csie.selab.inventorysystem.repository.AcquisitionRepository;
 import ntu.csie.selab.inventorysystem.repository.AcquisitionStatusRepository;
 import ntu.csie.selab.inventorysystem.repository.AcquisitionTypeRepository;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +54,29 @@ public class AcquisitionService {
         if (!result.isPresent())
             throw new NotFoundException(String.format("No acquisition found with id: %d.", id));
         return result.get();
+    }
+    public String getAcquisitionItemsById(Integer id) {
+
+        List<Item> list = acquisitionRepository.getItemIdWithAcqusition(id);
+        /*System.out.println(list.size());
+        for(int j=0;j<list.size();j++){
+            System.out.println(list.get(j));
+        }*/
+        JSONArray jsonA = new JSONArray();
+        for(int i=0;i<list.size();i++){
+            JSONObject jsonO = new JSONObject();
+            jsonO.put("id",list.get(i).getId());
+            jsonO.put("description",list.get(i).getDescription());
+            jsonO.put("quantity",list.get(i).getQuantity());
+            jsonO.put("price",list.get(i).getPrice());
+            jsonO.put("condition",list.get(i).getCondition());
+            jsonO.put("aid",id);
+            jsonA.put(i,jsonO);
+        }
+        /*System.out.println(jsonA.length());
+        System.out.println(jsonA);*/
+
+        return jsonA.toString();
     }
 
     private void readAllTypes() {
