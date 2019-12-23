@@ -10,6 +10,7 @@ import ntu.csie.selab.inventorysystem.repository.AcquisitionRepository;
 import ntu.csie.selab.inventorysystem.repository.AcquisitionStatusRepository;
 import ntu.csie.selab.inventorysystem.repository.AcquisitionTypeRepository;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ public class AcquisitionService {
             throw new NotFoundException(String.format("No acquisition found with id: %d.", id));
         return result.get();
     }
-    public String getAcquisitionItemsById(Integer id) {
+    public String getAcquisitionItemsById(Integer id) throws JSONException {
 
         List<Item> list = acquisitionRepository.getItemIdWithAcqusition(id);
         /*System.out.println(list.size());
