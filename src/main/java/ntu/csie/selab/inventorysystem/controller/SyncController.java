@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/sync")
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost"}, allowCredentials = "true")
 public class SyncController {
     @Autowired
     AcquisitionService acquisitionService;

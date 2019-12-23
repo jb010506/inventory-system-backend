@@ -31,7 +31,6 @@ public class HierarchyController {
         userService.isLogin(new Integer(uid), token);
         return hierarchyService.departmentList();
     }
-
     // API: View Department
     @GetMapping(value = "/departments/{id}", produces = "application/json")
     public Department viewDepartment(
